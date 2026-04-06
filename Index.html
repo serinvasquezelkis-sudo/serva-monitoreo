@@ -147,6 +147,7 @@
     <nav class="navbar">
         <a href="#inicio"><i class="fas fa-home"></i> INICIO</a>
         <a href="#monitoreo"><i class="fas fa-chart-line"></i> MONITOREO</a>
+        <a href="#capacitacion"><i class="fas fa-graduation-cap"></i> CAPACITACIÓN</a>
         <a href="#contacto"><i class="fas fa-envelope"></i> CONTACTO</a>
     </nav>
 
@@ -193,6 +194,21 @@
         </div>
     </section>
 
+    <section id="capacitacion">
+        <h2 class="section-title">CENTRO DE CAPACITACIÓN</h2>
+        <div class="card" style="width: 100%; max-width: 600px; border-color: var(--cian);">
+            <i class="fab fa-google-drive" style="color: var(--cian); font-size: 4em; margin-bottom: 20px;"></i>
+            <h3 style="font-size: 1.8em;">Material Técnico Especializado</h3>
+            <p style="color: #bbb; margin: 20px 0;">
+                Accede a videos de Studio 5000, manuales de redes y proyectos de automatización exclusivos.
+            </p>
+            <button onclick="accesoProtegidoDrive()" 
+                    style="background: var(--cian); color: black; padding: 15px 40px; border-radius: 30px; border: none; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s;">
+                <i class="fas fa-lock"></i> INGRESAR AL DRIVE
+            </button>
+        </div>
+    </section>
+
     <section id="contacto">
         <h2 class="section-title">CONTACTO TÉCNICO</h2>
         <div class="contacto-card">
@@ -221,6 +237,18 @@
                 setInterval(muestreoDatos, 3000);
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
+        // --- CONFIGURACIÓN DE CONTRASEÑA PARA CAPACITACIÓN ---
+        function accesoProtegidoDrive() {
+            const passwordRequerida = "serva5000"; // <--- CAMBIA TU CONTRASEÑA AQUÍ
+            const passwordIngresada = prompt("Ingrese la clave de seguridad para el material técnico:");
+
+            if (passwordIngresada === passwordRequerida) {
+                window.open("https://drive.google.com/drive/folders/17FnQHUGSoyptq59gLB8jv7ixdVpdFv59?usp=sharing", "_blank");
+            } else if (passwordIngresada !== null) {
+                alert("⚠️ Contraseña incorrecta. Acceso denegado.");
             }
         }
 
@@ -278,7 +306,6 @@
             client.on('message', (topic, message) => {
                 const data = JSON.parse(message.toString());
                 
-                // --- MANEJO DE TEMPERATURA Y ALERTA ---
                 if(data.temperatura !== undefined) {
                     lastTemp = Math.round(data.temperatura);
                     const tempDiv = document.getElementById('temp');
@@ -287,7 +314,6 @@
                     
                     tempDiv.innerHTML = `${lastTemp}<span class="unit">°C</span>`;
 
-                    // Lógica de alerta > 80°C
                     if (lastTemp > 80) {
                         tempCard.classList.add('alert-critical');
                         tempDiv.style.color = "#ff3333";

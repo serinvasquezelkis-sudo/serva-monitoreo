@@ -92,14 +92,21 @@
 
         <div class="charts-grid">
             <div class="chart-box">
-                <h4 style="color: #00e5ff; margin: 0 0 10px 0;">Tendencia Temperatura (°C)</h4>
+                <h4 style="color: #ffae00; margin: 0 0 10px 0;">Tendencia Temperatura (°C)</h4>
                 <canvas id="tempChart"></canvas>
             </div>
             <div class="chart-box">
-                <h4 style="color: #ffae00; margin: 0 0 10px 0;">Tendencia Velocidad (RPM)</h4>
+                <h4 style="color: #00ff00; margin: 0 0 10px 0;">Tendencia Velocidad (RPM)</h4>
                 <canvas id="velChart"></canvas>
             </div>
         </div>
+    </section>
+
+    <section id="contacto">
+        <h2>CONTACTO TÉCNICO</h2>
+        <p style="font-weight: bold;">SERVA Industrial Solutions</p>
+        <p style="color: #888;">Trujillo - Perú</p>
+        <a href="mailto:tu-correo@gmail.com" class="btn-contacto">Enviar Correo</a>
     </section>
 
     <script>
@@ -127,17 +134,35 @@
                 plugins: { legend: { display: false } }
             };
 
-            // Gráfica de Temperatura (Cian)
+            // Gráfica de Temperatura (Naranja - Alerta/Calor)
             tempChart = new Chart(document.getElementById('tempChart'), {
                 type: 'line',
-                data: { labels: [], datasets: [{ data: [], borderColor: '#00e5ff', backgroundColor: 'rgba(0, 229, 255, 0.1)', fill: true, tension: 0.4 }] },
+                data: { 
+                    labels: [], 
+                    datasets: [{ 
+                        data: [], 
+                        borderColor: '#ffae00', 
+                        backgroundColor: 'rgba(255, 174, 0, 0.1)', 
+                        fill: true, 
+                        tension: 0.4 
+                    }] 
+                },
                 options: commonOptions
             });
 
-            // Gráfica de Velocidad (Naranja)
+            // Gráfica de Velocidad (Verde - Operación OK)
             velChart = new Chart(document.getElementById('velChart'), {
                 type: 'line',
-                data: { labels: [], datasets: [{ data: [], borderColor: '#ffae00', backgroundColor: 'rgba(255, 174, 0, 0.1)', fill: true, tension: 0.4 }] },
+                data: { 
+                    labels: [], 
+                    datasets: [{ 
+                        data: [], 
+                        borderColor: '#00ff00', 
+                        backgroundColor: 'rgba(0, 255, 0, 0.1)', 
+                        fill: true, 
+                        tension: 0.4 
+                    }] 
+                },
                 options: commonOptions
             });
         }
@@ -147,6 +172,7 @@
             client.on('connect', () => {
                 document.getElementById('status').innerText = "● SISTEMA ONLINE";
                 document.getElementById('status').style.color = "#00ff00";
+                document.getElementById('status').style.backgroundColor = "rgba(0,255,0,0.1)";
                 client.subscribe('serva/planta1/monitoreo');
             });
 
@@ -157,12 +183,16 @@
 
                     if(data.temperatura !== undefined) {
                         const t = Math.round(data.temperatura);
-                        document.getElementById('temp').innerHTML = `${t}<span class="unit">°C</span>`;
+                        const tempEl = document.getElementById('temp');
+                        tempEl.innerHTML = `${t}<span class="unit">°C</span>`;
+                        // Color dinámico en el valor de la tarjeta
+                        tempEl.style.color = (t > 80) ? "#ff3333" : "#ffae00"; 
                         updateChart(tempChart, hora, t);
                     }
                     if(data.velocidad !== undefined) {
                         const v = Math.round(data.velocidad);
                         document.getElementById('vel').innerHTML = `${v}<span class="unit">RPM</span>`;
+                        document.getElementById('vel').style.color = "#00ff00";
                         updateChart(velChart, hora, v);
                     }
                     if(data.tiempo_total !== undefined) {

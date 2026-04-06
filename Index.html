@@ -230,7 +230,7 @@
         function validarAcceso() {
             const user = document.getElementById('userInput').value;
             const pass = document.getElementById('passInput').value;
-            if (user === "elkis" && pass === "serva2026") {
+            if (user === "elkis" && pass === "serin2026") {
                 document.getElementById('login-overlay').style.display = 'none';
                 initCharts();
                 iniciarMQTT();
@@ -242,7 +242,7 @@
 
         // --- CONFIGURACIÓN DE CONTRASEÑA PARA CAPACITACIÓN ---
         function accesoProtegidoDrive() {
-            const passwordRequerida = "serva5000"; // <--- CAMBIA TU CONTRASEÑA AQUÍ
+            const passwordRequerida = "serin5000"; // <--- CAMBIA TU CONTRASEÑA AQUÍ
             const passwordIngresada = prompt("Ingrese la clave de seguridad para el material técnico:");
 
             if (passwordIngresada === passwordRequerida) {

@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>SERVA Industrial - Portal de Monitoreo</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Estilos Globales - Fondo mate y Cyan SERVA */
         body { background-color: #1a1a1a; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; text-align: center; scroll-behavior: smooth; }
         
-        /* PANTALLA DE LOGIN (BLOQUEO) */
+        /* PANTALLA DE LOGIN */
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: #000; z-index: 9999;
@@ -33,34 +34,31 @@
         .navbar a { color: #00e5ff; text-decoration: none; margin: 0 20px; font-weight: bold; font-size: 1.1em; transition: 0.3s; }
         .navbar a:hover { color: white; text-shadow: 0 0 10px #00e5ff; }
 
-        /* Secciones Principales */
+        /* Secciones */
         section { padding: 100px 20px; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        
-        /* Sección Inicio */
         #inicio { background-color: #1a1a1a; }
         .foto-perfil { width: 180px; height: 180px; border-radius: 50%; border: 4px solid #00e5ff; box-shadow: 0 0 20px rgba(0,229,255,0.5); object-fit: cover; margin-bottom: 20px; }
-        #inicio h1 { font-size: 2.5em; margin: 10px 0; color: white; }
-        #inicio p { color: #ccc; font-size: 1.2em; max-width: 600px; }
-
-        /* Sección Monitoreo */
+        
         #monitoreo { background-color: #262626; border-top: 1px solid #333; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px; width: 100%; max-width: 1200px; }
         .card { background: #1a1a1a; padding: 25px; border-radius: 15px; border: 2px solid #00e5ff; width: 250px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .card h3 { color: #888; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9em; }
         .value { font-size: 3em; color: #00e5ff; font-weight: bold; margin: 15px 0; }
         .unit { font-size: 0.4em; color: #5a5c63; margin-left: 5px; }
-        
-        h2 { color: white; font-size: 2em; letter-spacing: 2px; margin-bottom: 10px; }
-        #status { font-size: 1em; font-weight: bold; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
 
-        /* Sección Contacto */
-        #contacto { background-color: #1a1a1a; }
-        .btn-contacto { background-color: #00e5ff; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
-        
-        @media (max-width: 600px) {
-            .navbar a { margin: 0 10px; font-size: 0.9em; }
-            .card { width: 80%; }
+        /* Contenedor de la Gráfica */
+        .chart-container {
+            background: #1a1a1a;
+            margin-top: 40px;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #333;
+            width: 90%;
+            max-width: 900px;
+            height: 400px;
         }
+
+        #status { font-size: 1em; font-weight: bold; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+        .btn-contacto { background-color: #00e5ff; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
     </style>
 </head>
 <body>
@@ -84,7 +82,7 @@
     </nav>
 
     <section id="inicio">
-        <img src="perfil.jpg" alt="Elkis Serin - Director Técnico" class="foto-perfil">
+        <img src="perfil.jpg" alt="Elkis Serin" class="foto-perfil">
         <h1>Elkis Serin Vasquez</h1>
         <p>Director Técnico en SERVA Industrial Solutions. Monitoreo de planta en tiempo real.</p>
         <a href="#monitoreo" class="btn-contacto">Ver Variables de Planta</a>
@@ -98,44 +96,86 @@
             <div class="card">
                 <h3>Temperatura</h3>
                 <div id="temp" class="value">0<span class="unit">°C</span></div>
-                <div style="color: #5a5c63; font-size: 0.8em;">Sensor Principal T1</div>
             </div>
             <div class="card">
                 <h3>Velocidad</h3>
                 <div id="vel" class="value">0<span class="unit">RPM</span></div>
-                <div style="color: #5a5c63; font-size: 0.8em;">Motor Extrusora M1</div>
             </div>
             <div class="card">
                 <h3>Horómetro</h3>
                 <div id="horas" class="value" style="font-size: 2.2em;">00:00:00<span class="unit">h</span></div>
-                <div style="color: #5a5c63; font-size: 0.8em;">Operación Total</div>
             </div>
+        </div>
+
+        <div class="chart-container">
+            <h3 style="color: #00e5ff; margin-bottom: 10px;">Tendencia de Temperatura T1</h3>
+            <canvas id="tempChart"></canvas>
         </div>
     </section>
 
     <section id="contacto">
         <h2>CONTACTO TÉCNICO</h2>
-        <p style="color: white; font-size: 1.2em; font-weight: bold;">SERVA Industrial Solutions</p>
+        <p style="font-weight: bold;">SERVA Industrial Solutions</p>
         <p style="color: #888;">Trujillo - Perú</p>
         <a href="mailto:tu-correo@gmail.com" class="btn-contacto">Enviar Correo</a>
     </section>
 
     <script>
-        // --- LÓGICA DE USUARIO Y CONTRASEÑA ---
+        let tempChart;
+        const maxDataPoints = 20; // Cuántos puntos mostrar en la gráfica
+
         function validarAcceso() {
             const user = document.getElementById('userInput').value;
             const pass = document.getElementById('passInput').value;
-
-            // CONFIGURA TU USUARIO Y CLAVE AQUÍ
             if (user === "elkis" && pass === "serva2026") {
                 document.getElementById('login-overlay').style.display = 'none';
-                iniciarMQTT(); // Solo conecta cuando el login es exitoso
+                initChart(); // Inicia la gráfica
+                iniciarMQTT();
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
             }
         }
 
-        // --- LÓGICA MQTT (Solo se activa tras el login) ---
+        // --- INICIALIZAR GRÁFICA ---
+        function initChart() {
+            const ctx = document.getElementById('tempChart').getContext('2d');
+            tempChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [], // Tiempo
+                    datasets: [{
+                        label: 'Temperatura (°C)',
+                        data: [],
+                        borderColor: '#00e5ff',
+                        backgroundColor: 'rgba(0, 229, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4, // Curva suave
+                        pointRadius: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true, 
+                            max: 120, // Rango industrial estándar
+                            grid: { color: '#333' },
+                            ticks: { color: '#888' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#888' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
         function iniciarMQTT() {
             const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
             const statusDiv = document.getElementById('status');
@@ -150,14 +190,28 @@
             client.on('message', (topic, message) => {
                 try {
                     const data = JSON.parse(message.toString());
+                    const ahora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
                     if(data.temperatura !== undefined) {
                         const tempVal = Math.round(data.temperatura);
                         document.getElementById('temp').innerHTML = `${tempVal}<span class="unit">°C</span>`;
                         document.getElementById('temp').style.color = (tempVal > 80) ? "#ff3333" : "#00e5ff";
+
+                        // ACTUALIZAR GRÁFICA
+                        if (tempChart) {
+                            tempChart.data.labels.push(ahora);
+                            tempChart.data.datasets[0].data.push(tempVal);
+
+                            // Mantener solo los últimos puntos
+                            if (tempChart.data.labels.length > maxDataPoints) {
+                                tempChart.data.labels.shift();
+                                tempChart.data.datasets[0].data.shift();
+                            }
+                            tempChart.update('none'); // Update sin animaciones bruscas
+                        }
                     }
                     if(data.velocidad !== undefined) {
-                        const velVal = Math.round(data.velocidad);
-                        document.getElementById('vel').innerHTML = `${velVal}<span class="unit">RPM</span>`;
+                        document.getElementById('vel').innerHTML = `${Math.round(data.velocidad)}<span class="unit">RPM</span>`;
                     }
                     if(data.tiempo_total !== undefined) {
                         document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;

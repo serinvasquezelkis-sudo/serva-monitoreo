@@ -8,6 +8,26 @@
         /* Estilos Globales - Fondo mate y Cyan SERVA */
         body { background-color: #1a1a1a; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; text-align: center; scroll-behavior: smooth; }
         
+        /* PANTALLA DE LOGIN (BLOQUEO) */
+        #login-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .login-box {
+            background: #1a1a1a; padding: 40px; border-radius: 15px; border: 2px solid #00e5ff;
+            box-shadow: 0 0 20px #00e5ff; text-align: center;
+        }
+        .login-box input {
+            display: block; width: 200px; padding: 10px; margin: 10px auto;
+            border-radius: 5px; border: 1px solid #00e5ff; background: #000; color: white;
+        }
+        .login-box button {
+            background: #00e5ff; color: black; border: none; padding: 10px 20px;
+            border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .login-box button:hover { background: white; box-shadow: 0 0 10px #00e5ff; }
+
         /* Menú de Navegación */
         .navbar { background-color: #000; padding: 15px; position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid #00e5ff; }
         .navbar a { color: #00e5ff; text-decoration: none; margin: 0 20px; font-weight: bold; font-size: 1.1em; transition: 0.3s; }
@@ -16,40 +36,46 @@
         /* Secciones Principales */
         section { padding: 100px 20px; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         
-        /* Sección Inicio - Tu Foto pro */
+        /* Sección Inicio */
         #inicio { background-color: #1a1a1a; }
         .foto-perfil { width: 180px; height: 180px; border-radius: 50%; border: 4px solid #00e5ff; box-shadow: 0 0 20px rgba(0,229,255,0.5); object-fit: cover; margin-bottom: 20px; }
         #inicio h1 { font-size: 2.5em; margin: 10px 0; color: white; }
         #inicio p { color: #ccc; font-size: 1.2em; max-width: 600px; }
 
-        /* Sección Monitoreo - Tus medidores mejorados */
+        /* Sección Monitoreo */
         #monitoreo { background-color: #262626; border-top: 1px solid #333; }
         .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px; }
         .card { background: #1a1a1a; padding: 25px; border-radius: 15px; border: 2px solid #00e5ff; width: 250px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,229,255,0.3); }
         .card h3 { color: #888; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9em; }
         .value { font-size: 3em; color: #00e5ff; font-weight: bold; margin: 15px 0; }
         .unit { font-size: 0.4em; color: #5a5c63; margin-left: 5px; }
         
-        /* Títulos y Status */
         h2 { color: white; font-size: 2em; letter-spacing: 2px; margin-bottom: 10px; }
         #status { font-size: 1em; font-weight: bold; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
 
         /* Sección Contacto */
         #contacto { background-color: #1a1a1a; }
         .btn-contacto { background-color: #00e5ff; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
-        .btn-contacto:hover { background-color: white; box-shadow: 0 0 15px #00e5ff; }
-
-        /* Ajustes para Celular */
+        
         @media (max-width: 600px) {
             .navbar a { margin: 0 10px; font-size: 0.9em; }
-            #inicio h1 { font-size: 2em; }
-            .foto-perfil { width: 140px; height: 140px; }
             .card { width: 80%; }
         }
     </style>
 </head>
 <body>
+
+    <div id="login-overlay">
+        <div class="login-box">
+            <img src="perfil.jpg" style="width: 80px; border-radius: 50%; border: 2px solid #00e5ff; margin-bottom: 10px;">
+            <h2 style="font-size: 1.2em; color: #00e5ff;">SERVA INDUSTRIAL</h2>
+            <p>Acceso Restringido</p>
+            <input type="text" id="userInput" placeholder="Usuario">
+            <input type="password" id="passInput" placeholder="Contraseña">
+            <button onclick="validarAcceso()">INGRESAR</button>
+            <p id="errorMsg" style="color: #ff3333; font-size: 0.8em; margin-top: 10px; display: none;">Datos incorrectos</p>
+        </div>
+    </div>
 
     <nav class="navbar">
         <a href="#inicio">INICIO</a>
@@ -60,7 +86,7 @@
     <section id="inicio">
         <img src="perfil.jpg" alt="Elkis Serin - Director Técnico" class="foto-perfil">
         <h1>Elkis Serin Vasquez</h1>
-        <p>Director Técnico en SERVA Industrial Solutions. Bienvenido al portal oficial de monitoreo de planta en tiempo real.</p>
+        <p>Director Técnico en SERVA Industrial Solutions. Monitoreo de planta en tiempo real.</p>
         <a href="#monitoreo" class="btn-contacto">Ver Variables de Planta</a>
     </section>
 
@@ -74,13 +100,11 @@
                 <div id="temp" class="value">0<span class="unit">°C</span></div>
                 <div style="color: #5a5c63; font-size: 0.8em;">Sensor Principal T1</div>
             </div>
-
             <div class="card">
                 <h3>Velocidad</h3>
                 <div id="vel" class="value">0<span class="unit">RPM</span></div>
                 <div style="color: #5a5c63; font-size: 0.8em;">Motor Extrusora M1</div>
             </div>
-
             <div class="card">
                 <h3>Horómetro</h3>
                 <div id="horas" class="value" style="font-size: 2.2em;">00:00:00<span class="unit">h</span></div>
@@ -91,59 +115,56 @@
 
     <section id="contacto">
         <h2>CONTACTO TÉCNICO</h2>
-        <p style="color: #ccc;">Para soporte o consultas sobre el sistema:</p>
         <p style="color: white; font-size: 1.2em; font-weight: bold;">SERVA Industrial Solutions</p>
         <p style="color: #888;">Trujillo - Perú</p>
-        <a href="mailto:tu-ciniciandonodered@gmail.com" class="btn-contacto">Enviar Correo</a>
+        <a href="mailto:tu-correo@gmail.com" class="btn-contacto">Enviar Correo</a>
     </section>
 
     <script>
-        const client = mqtt.connect('wss://test.mosquitto.org:8081');
-        const statusDiv = document.getElementById('status');
+        // --- LÓGICA DE USUARIO Y CONTRASEÑA ---
+        function validarAcceso() {
+            const user = document.getElementById('userInput').value;
+            const pass = document.getElementById('passInput').value;
 
-        client.on('connect', () => {
-            console.log('Conectado a MQTT');
-            statusDiv.innerText = "● ONLINE - RECIBIENDO DATOS";
-            statusDiv.style.color = "#00ff00";
-            statusDiv.style.backgroundColor = "rgba(0,255,0,0.1)";
-            client.subscribe('serva/planta1/monitoreo');
-        });
-
-        client.on('error', (error) => {
-            console.error('Error MQTT:', error);
-            statusDiv.innerText = "❌ ERROR DE CONEXIÓN";
-            statusDiv.style.color = "#ff3333";
-            statusDiv.style.backgroundColor = "rgba(255,51,51,0.1)";
-        });
-
-        client.on('message', (topic, message) => {
-            try {
-                const data = JSON.parse(message.toString());
-                console.log("Datos recibidos:", data);
-
-                // Actualizar Temperatura
-                if(data.temperatura !== undefined) {
-                    const tempVal = Math.round(data.temperatura);
-                    const tempElement = document.getElementById('temp');
-                    tempElement.innerHTML = `${tempVal}<span class="unit">°C</span>`;
-                    tempElement.style.color = (tempVal > 80) ? "#ff3333" : "#00e5ff";
-                }
-
-                // Actualizar Velocidad
-                if(data.velocidad !== undefined) {
-                    const velVal = Math.round(data.velocidad);
-                    document.getElementById('vel').innerHTML = `${velVal}<span class="unit">RPM</span>`;
-                }
-
-                // Actualizar Horómetro (Sincronizado con 'tiempo_total' de Node-RED)
-                if(data.tiempo_total !== undefined) {
-                    document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
-                }
-
-            } catch (e) {
-                console.error('Error al parsear JSON:', e);
+            // CONFIGURA TU USUARIO Y CLAVE AQUÍ
+            if (user === "elkis" && pass === "serva2026") {
+                document.getElementById('login-overlay').style.display = 'none';
+                iniciarMQTT(); // Solo conecta cuando el login es exitoso
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
             }
-        });
+        }
+
+        // --- LÓGICA MQTT (Solo se activa tras el login) ---
+        function iniciarMQTT() {
+            const client = mqtt.connect('wss://test.mosquitto.org:8081');
+            const statusDiv = document.getElementById('status');
+
+            client.on('connect', () => {
+                statusDiv.innerText = "● ONLINE - RECIBIENDO DATOS";
+                statusDiv.style.color = "#00ff00";
+                statusDiv.style.backgroundColor = "rgba(0,255,0,0.1)";
+                client.subscribe('serva/planta1/monitoreo');
+            });
+
+            client.on('message', (topic, message) => {
+                try {
+                    const data = JSON.parse(message.toString());
+                    if(data.temperatura !== undefined) {
+                        const tempVal = Math.round(data.temperatura);
+                        document.getElementById('temp').innerHTML = `${tempVal}<span class="unit">°C</span>`;
+                        document.getElementById('temp').style.color = (tempVal > 80) ? "#ff3333" : "#00e5ff";
+                    }
+                    if(data.velocidad !== undefined) {
+                        const velVal = Math.round(data.velocidad);
+                        document.getElementById('vel').innerHTML = `${velVal}<span class="unit">RPM</span>`;
+                    }
+                    if(data.tiempo_total !== undefined) {
+                        document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
+                    }
+                } catch (e) { console.error('Error JSON:', e); }
+            });
+        }
     </script>
 </body>
 </html>

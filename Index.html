@@ -29,6 +29,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
         }
 
         .profile-img {
@@ -46,14 +47,14 @@
             justify-content: center; align-items: center;
         }
         .login-box { 
-            background: var(--tarjeta); padding: 40px; border-radius: 20px; 
+            background: var(--tarjeta); padding: 30px; border-radius: 20px; 
             border: 2px solid var(--cian); box-shadow: 0 0 30px rgba(0,229,255,0.4); 
-            width: 320px; display: flex; flex-direction: column; align-items: center;
+            width: 85%; max-width: 350px; display: flex; flex-direction: column; align-items: center;
         }
         .login-box input { 
             display: block; width: 90%; padding: 12px; margin: 10px auto; 
             border-radius: 8px; border: 1px solid var(--cian); 
-            background: var(--negro-puro); color: white; outline: none; text-align: center;
+            background: var(--negro-puro); color: white; outline: none; text-align: center; font-size: 16px;
         }
         .login-box button { 
             background: var(--cian); color: black; border: none; 
@@ -61,38 +62,50 @@
             cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%;
         }
 
-        /* --- NAVBAR --- */
+        /* --- NAVBAR RESPONSIVE --- */
         .navbar { 
-            background-color: var(--negro-puro); padding: 15px 0; 
+            background-color: var(--negro-puro); padding: 10px 0; 
             position: fixed; width: 100%; top: 0; z-index: 1000; 
             border-bottom: 2px solid var(--cian); display: flex; justify-content: center;
+            flex-wrap: wrap;
         }
-        .navbar a { color: var(--cian); text-decoration: none; margin: 0 25px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .navbar a { 
+            color: var(--cian); text-decoration: none; margin: 5px 15px; 
+            font-weight: bold; display: flex; align-items: center; gap: 8px;
+            font-size: 0.9em;
+        }
 
         /* --- SECCIONES --- */
         section { 
-            padding: 120px 20px 60px 20px; 
-            min-height: 85vh; width: 100%; max-width: 1400px; 
+            padding: 100px 15px 40px 15px; 
+            min-height: 90vh; width: 100%; max-width: 1200px; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
             box-sizing: border-box;
         }
         
         .section-title { 
-            font-size: 2.2em; margin-bottom: 40px; 
+            font-size: 1.8em; margin-bottom: 30px; 
             border-bottom: 2px solid #333; display: inline-block; 
             padding-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* --- CARDS --- */
-        .cards-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; width: 100%; }
+        /* --- CARDS RESPONSIVAS --- */
+        .cards-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px; 
+            width: 100%; 
+            margin-bottom: 40px;
+        }
         .card { 
-            background: var(--tarjeta); padding: 30px; border-radius: 18px; 
-            border: 2px solid var(--cian); width: 260px; 
+            background: var(--tarjeta); padding: 25px; border-radius: 18px; 
+            border: 2px solid var(--cian); 
             box-shadow: 0 8px 25px rgba(0,0,0,0.6);
             transition: 0.3s;
+            box-sizing: border-box;
         }
-        .value { font-size: 3em; color: var(--cian); font-weight: bold; margin: 10px 0; }
-        .unit { font-size: 0.4em; color: #666; margin-left: 5px; }
+        .value { font-size: 2.5em; color: var(--cian); font-weight: bold; margin: 10px 0; }
+        .unit { font-size: 0.5em; color: #666; margin-left: 5px; }
 
         /* --- ALERTA TEMPERATURA --- */
         .alert-critical {
@@ -107,36 +120,52 @@
             100% { box-shadow: 0 0 10px #ff0000; }
         }
 
-        /* --- GRÁFICAS --- */
+        /* --- GRÁFICAS RESPONSIVAS --- */
         .charts-grid {
-            display: flex; justify-content: center; flex-wrap: wrap;
-            gap: 25px; width: 100%; max-width: 1200px; margin: 50px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px; 
+            width: 100%;
         }
         .chart-box {
-            background: var(--tarjeta); padding: 20px; border-radius: 18px; 
-            border: 1px solid #333; height: 320px; flex: 1;
-            min-width: 420px; max-width: 550px; display: flex; flex-direction: column;
+            background: var(--tarjeta); padding: 15px; border-radius: 18px; 
+            border: 1px solid #333; height: 350px;
+            display: flex; flex-direction: column;
+            box-sizing: border-box;
         }
 
-        /* --- BOTÓN WHATSAPP --- */
+        /* --- CONTACTO & BOTONES --- */
+        .contacto-card {
+            background: var(--tarjeta); padding: 30px; border-radius: 20px;
+            border: 1px solid #333; width: 90%; max-width: 500px;
+        }
         .btn-ws {
-            background-color: #25D366; color: white; padding: 15px 35px; 
+            background-color: #25D366; color: white; padding: 15px 30px; 
             text-decoration: none; border-radius: 30px; font-weight: bold; 
             display: inline-flex; align-items: center; gap: 10px;
-            margin-top: 25px; transition: 0.3s; border: none; cursor: pointer;
+            margin-top: 20px; transition: 0.3s; border: none; cursor: pointer;
+            font-size: 1em;
         }
-        .btn-ws:hover { transform: scale(1.05); background-color: #1eb954; }
 
-        @media (max-width: 850px) { .chart-box { min-width: 100%; } }
+        /* --- MEDIA QUERIES PARA CELULAR --- */
+        @media (max-width: 600px) {
+            .navbar a span { display: none; } /* Oculta texto en menú si es muy pequeño */
+            .navbar a { margin: 0 10px; font-size: 1.2em; }
+            h1 { font-size: 2.2em !important; }
+            .section-title { font-size: 1.4em; }
+            .chart-box { height: 280px; }
+            .value { font-size: 2em; }
+            section { padding-top: 80px; }
+        }
     </style>
 </head>
 <body>
 
     <div id="login-overlay">
         <div class="login-box">
-            <img src="perfil.jpg" alt="Elkis Serin" class="profile-img" style="width:110px; height:110px; margin-bottom:20px;">
-            <h2 style="color: var(--cian); margin: 0; font-size: 2em;">SERVA</h2>
-            <p style="color: #aaa; margin-bottom: 25px; font-size: 0.9em; text-transform: uppercase;">Industrial Solutions</p>
+            <img src="perfil.jpg" alt="Elkis Serin" class="profile-img" style="width:100px; height:100px; margin-bottom:20px;">
+            <h2 style="color: var(--cian); margin: 0; font-size: 1.8em;">SERVA</h2>
+            <p style="color: #aaa; margin-bottom: 20px; font-size: 0.8em; text-transform: uppercase;">Industrial Solutions</p>
             <input type="text" id="userInput" placeholder="Usuario">
             <input type="password" id="passInput" placeholder="Contraseña">
             <button onclick="validarAcceso()">INGRESAR AL SISTEMA</button>
@@ -145,50 +174,50 @@
     </div>
 
     <nav class="navbar">
-        <a href="#inicio"><i class="fas fa-home"></i> INICIO</a>
-        <a href="#monitoreo"><i class="fas fa-chart-line"></i> MONITOREO</a>
-        <a href="#capacitacion"><i class="fas fa-graduation-cap"></i> CAPACITACIÓN</a>
-        <a href="#contacto"><i class="fas fa-envelope"></i> CONTACTO</a>
+        <a href="#inicio"><i class="fas fa-home"></i> <span>INICIO</span></a>
+        <a href="#monitoreo"><i class="fas fa-chart-line"></i> <span>MONITOREO</span></a>
+        <a href="#capacitacion"><i class="fas fa-graduation-cap"></i> <span>CAPACITACIÓN</span></a>
+        <a href="#contacto"><i class="fas fa-envelope"></i> <span>CONTACTO</span></a>
     </nav>
 
     <section id="inicio">
-        <img src="perfil.jpg" alt="Elkis Serin" class="profile-img" style="width: 140px; height: 140px; margin-bottom: 30px;">
-        <h1 style="font-size: 3.8em; margin: 0;">SERVA Industrial Solutions</h1>
-        <p style="font-size: 1.3em; color: #bbb;">Automatización, Instrumentación y Mantenimiento .</p>
-        <a href="#monitoreo" style="background:var(--cian); color:black; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; margin-top:20px; display:inline-block;">ABRIR MONITOREO</a>
+        <img src="perfil.jpg" alt="Elkis Serin" class="profile-img" style="width: 120px; height: 120px; margin-bottom: 20px;">
+        <h1 style="font-size: 3em; margin: 0;">SERVA Industrial Solutions</h1>
+        <p style="font-size: 1.1em; color: #bbb; max-width: 600px;">Automatización, Instrumentación y Mantenimiento Industrial.</p>
+        <a href="#monitoreo" style="background:var(--cian); color:black; padding:15px 35px; border-radius:30px; text-decoration:none; font-weight:bold; margin-top:25px; display:inline-block;">ABRIR MONITOREO</a>
     </section>
 
     <section id="monitoreo">
         <h2 class="section-title">PANEL DE CONTROL PLC</h2>
-        <div id="status" style="color: var(--naranja); background-color: rgba(255,174,0,0.1); border: 1px solid rgba(255,174,0,0.3); padding: 12px 25px; border-radius: 30px; margin-bottom: 40px;">
+        <div id="status" style="color: var(--naranja); background-color: rgba(255,174,0,0.1); border: 1px solid rgba(255,174,0,0.3); padding: 10px 20px; border-radius: 30px; margin-bottom: 30px; font-size: 0.9em;">
             <i class="fas fa-sync fa-spin"></i> ESPERANDO DATOS...
         </div>
 
         <div class="cards-container">
             <div id="card_temp" class="card">
-                <i class="fas fa-thermometer-half" style="color: var(--naranja); font-size:3.5em;"></i>
+                <i class="fas fa-thermometer-half" style="color: var(--naranja); font-size:3em;"></i>
                 <h3>Temperatura</h3>
                 <div id="temp" class="value">0<span class="unit">°C</span></div>
             </div>
             <div class="card">
-                <i class="fas fa-tachometer-alt" style="color: var(--verde); font-size:3.5em;"></i>
+                <i class="fas fa-tachometer-alt" style="color: var(--verde); font-size:3em;"></i>
                 <h3>Velocidad</h3>
                 <div id="vel" class="value">0<span class="unit">RPM</span></div>
             </div>
             <div class="card">
-                <i class="fas fa-hourglass-half" style="color: var(--cian); font-size:3.5em;"></i>
+                <i class="fas fa-hourglass-half" style="color: var(--cian); font-size:3em;"></i>
                 <h3>Horas de Uso</h3>
-                <div id="horas" class="value" style="font-size: 2.2em;">00:00:00<span class="unit">h</span></div>
+                <div id="horas" class="value" style="font-size: 1.8em;">00:00:00<span class="unit">h</span></div>
             </div>
         </div>
 
         <div class="charts-grid">
             <div class="chart-box">
-                <h4 style="color: var(--naranja); margin-top:0;"><i class="fas fa-chart-area"></i> TENDENCIA TEMPERATURA</h4>
+                <h4 style="color: var(--naranja); margin: 0 0 10px 0;"><i class="fas fa-chart-area"></i> TENDENCIA TEMP.</h4>
                 <canvas id="tempChart"></canvas>
             </div>
             <div class="chart-box">
-                <h4 style="color: var(--verde); margin-top:0;"><i class="fas fa-chart-line"></i> TENDENCIA VELOCIDAD</h4>
+                <h4 style="color: var(--verde); margin: 0 0 10px 0;"><i class="fas fa-chart-line"></i> TENDENCIA VEL.</h4>
                 <canvas id="velChart"></canvas>
             </div>
         </div>
@@ -197,13 +226,13 @@
     <section id="capacitacion">
         <h2 class="section-title">CENTRO DE CAPACITACIÓN</h2>
         <div class="card" style="width: 100%; max-width: 600px; border-color: var(--cian);">
-            <i class="fab fa-google-drive" style="color: var(--cian); font-size: 4em; margin-bottom: 20px;"></i>
-            <h3 style="font-size: 1.8em;">Material Técnico Especializado</h3>
-            <p style="color: #bbb; margin: 20px 0;">
-                Accede a videos de Studio 5000, manuales de redes y proyectos de automatización exclusivos.
+            <i class="fab fa-google-drive" style="color: var(--cian); font-size: 3.5em; margin-bottom: 20px;"></i>
+            <h3 style="font-size: 1.6em;">Material Técnico Especializado</h3>
+            <p style="color: #bbb; margin: 15px 0; font-size: 0.95em;">
+                Acceso exclusivo a videos de Studio 5000, manuales de redes y proyectos de automatización.
             </p>
             <button onclick="accesoProtegidoDrive()" 
-                    style="background: var(--cian); color: black; padding: 15px 40px; border-radius: 30px; border: none; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s;">
+                    style="background: var(--cian); color: black; padding: 15px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; max-width: 300px;">
                 <i class="fas fa-lock"></i> INGRESAR AL DRIVE
             </button>
         </div>
@@ -212,12 +241,12 @@
     <section id="contacto">
         <h2 class="section-title">CONTACTO TÉCNICO</h2>
         <div class="contacto-card">
-            <p style="font-size: 1.6em; font-weight: bold; color: var(--cian); margin: 0;">ELKIS SERIN VASQUEZ</p>
-            <p style="color: #eee; margin: 10px 0;">Especialista en Automatización Industrial</p>
-            <div style="border-top: 1px solid #333; width: 100%; margin: 20px 0;"></div>
-            <p style="color: #aaa;"><i class="fas fa-map-marker-alt"></i> Trujillo, La Libertad - Perú</p>
+            <p style="font-size: 1.4em; font-weight: bold; color: var(--cian); margin: 0;">ELKIS SERIN VASQUEZ</p>
+            <p style="color: #eee; margin: 8px 0; font-size: 0.9em;">Especialista en Automatización Industrial</p>
+            <div style="border-top: 1px solid #333; width: 100%; margin: 15px 0;"></div>
+            <p style="color: #aaa; font-size: 0.9em;"><i class="fas fa-map-marker-alt"></i> Trujillo, La Libertad - Perú</p>
             <a href="https://wa.me/51942358041" target="_blank" class="btn-ws">
-                <i class="fab fa-whatsapp" style="font-size: 1.5em;"></i> CONTACTAR POR WHATSAPP
+                <i class="fab fa-whatsapp" style="font-size: 1.4em;"></i> WHATSAPP TÉCNICO
             </a>
         </div>
     </section>
@@ -225,7 +254,7 @@
     <script>
         let tempChart, velChart;
         let lastTemp = 0, lastVel = 0;
-        const maxPoints = 30;
+        const maxPoints = 20;
 
         function validarAcceso() {
             const user = document.getElementById('userInput').value;
@@ -240,9 +269,8 @@
             }
         }
 
-        // --- CONFIGURACIÓN DE CONTRASEÑA PARA CAPACITACIÓN ---
         function accesoProtegidoDrive() {
-            const passwordRequerida = "serin5000"; // <--- CAMBIA TU CONTRASEÑA AQUÍ
+            const passwordRequerida = "serin5000";
             const passwordIngresada = prompt("Ingrese la clave de seguridad para el material técnico:");
 
             if (passwordIngresada === passwordRequerida) {
@@ -254,43 +282,25 @@
 
         function initCharts() {
             Chart.register(ChartDataLabels);
-
             const commonOptions = {
                 responsive: true, maintainAspectRatio: false,
-                layout: { padding: { left: 10, right: 50, top: 30, bottom: 10 } },
-                scales: {
-                    y: { 
-                        grid: { color: '#2a2a2a' }, 
-                        ticks: { color: '#888' }, 
-                        beginAtZero: true 
-                    },
-                    x: { grid: { display: false }, ticks: { display: false } }
-                },
-                plugins: { 
-                    legend: { display: false },
-                    datalabels: {
-                        color: '#ffffff',
-                        align: 'top',
-                        offset: 5,
-                        font: { weight: 'bold', size: 12 },
-                        formatter: Math.round,
-                        display: function(context) {
-                            return context.dataIndex === context.dataset.data.length - 1;
-                        }
-                    }
+                plugins: { legend: { display: false }, datalabels: { color: '#fff', align: 'top', font: { weight: 'bold' }, display: (ctx) => ctx.dataIndex === ctx.dataset.data.length - 1 }},
+                scales: { 
+                    y: { grid: { color: '#2a2a2a' }, ticks: { color: '#888' }, beginAtZero: true },
+                    x: { ticks: { display: false }, grid: { display: false }}
                 }
             };
 
             tempChart = new Chart(document.getElementById('tempChart'), {
                 type: 'line',
                 data: { labels: [], datasets: [{ data: [], borderColor: '#ffae00', backgroundColor: 'rgba(255, 174, 0, 0.1)', fill: true, tension: 0.4 }] },
-                options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, min: 0, max: 110 } } }
+                options: commonOptions
             });
 
             velChart = new Chart(document.getElementById('velChart'), {
                 type: 'line',
                 data: { labels: [], datasets: [{ data: [], borderColor: '#00ff00', backgroundColor: 'rgba(0, 255, 0, 0.1)', fill: true, tension: 0.4 }] },
-                options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, min: 0, max: 3500 } } }
+                options: commonOptions
             });
         }
 
@@ -305,35 +315,17 @@
 
             client.on('message', (topic, message) => {
                 const data = JSON.parse(message.toString());
-                
                 if(data.temperatura !== undefined) {
                     lastTemp = Math.round(data.temperatura);
-                    const tempDiv = document.getElementById('temp');
-                    const tempCard = document.getElementById('card_temp');
-                    const statusLabel = document.getElementById('status');
-                    
-                    tempDiv.innerHTML = `${lastTemp}<span class="unit">°C</span>`;
-
-                    if (lastTemp > 80) {
-                        tempCard.classList.add('alert-critical');
-                        tempDiv.style.color = "#ff3333";
-                        statusLabel.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ALERTA: ALTA TEMPERATURA';
-                        statusLabel.style.color = "#ff3333";
-                        statusLabel.style.backgroundColor = "rgba(255,0,0,0.15)";
-                    } else {
-                        tempCard.classList.remove('alert-critical');
-                        tempDiv.style.color = "var(--cian)";
-                        statusLabel.innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
-                        statusLabel.style.color = "#00ff00";
-                        statusLabel.style.backgroundColor = "rgba(0,255,0,0.1)";
-                    }
+                    document.getElementById('temp').innerHTML = `${lastTemp}<span class="unit">°C</span>`;
+                    const card = document.getElementById('card_temp');
+                    if (lastTemp > 80) card.classList.add('alert-critical');
+                    else card.classList.remove('alert-critical');
                 }
-
                 if(data.velocidad !== undefined) {
                     lastVel = Math.round(data.velocidad);
                     document.getElementById('vel').innerHTML = `${lastVel}<span class="unit">RPM</span>`;
                 }
-                
                 if(data.tiempo_total !== undefined) {
                     document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
                 }

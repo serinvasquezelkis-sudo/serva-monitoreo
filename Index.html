@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -84,7 +83,7 @@
 
             <div class="card">
                 <h3>Horómetro</h3>
-                <div id="horas" class="value">0<span class="unit">h</span></div>
+                <div id="horas" class="value" style="font-size: 2.2em;">00:00:00<span class="unit">h</span></div>
                 <div style="color: #5a5c63; font-size: 0.8em;">Operación Total</div>
             </div>
         </div>
@@ -120,7 +119,8 @@
         client.on('message', (topic, message) => {
             try {
                 const data = JSON.parse(message.toString());
-                
+                console.log("Datos recibidos:", data);
+
                 // Actualizar Temperatura
                 if(data.temperatura !== undefined) {
                     const tempVal = Math.round(data.temperatura);
@@ -135,10 +135,9 @@
                     document.getElementById('vel').innerHTML = `${velVal}<span class="unit">RPM</span>`;
                 }
 
-                // Actualizar Horómetro (Lógica nueva)
-                if(data.horas !== undefined) {
-                    const horasVal = data.horas; // Muestra decimales si los envías (ej: 1.5h)
-                    document.getElementById('horas').innerHTML = `${horasVal}<span class="unit">h</span>`;
+                // Actualizar Horómetro (Sincronizado con 'tiempo_total' de Node-RED)
+                if(data.tiempo_total !== undefined) {
+                    document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
                 }
 
             } catch (e) {

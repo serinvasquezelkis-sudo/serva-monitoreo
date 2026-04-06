@@ -25,7 +25,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
             text-align: center; 
-            scroll-behavior: smooth; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -50,7 +49,6 @@
             border: 2px solid var(--cian); box-shadow: 0 0 30px rgba(0,229,255,0.4); 
             width: 320px; display: flex; flex-direction: column; align-items: center;
         }
-        .login-box .profile-img { width: 110px; height: 110px; margin-bottom: 20px; }
         .login-box input { 
             display: block; width: 90%; padding: 12px; margin: 10px auto; 
             border-radius: 8px; border: 1px solid var(--cian); 
@@ -68,7 +66,7 @@
             position: fixed; width: 100%; top: 0; z-index: 1000; 
             border-bottom: 2px solid var(--cian); display: flex; justify-content: center;
         }
-        .navbar a { color: var(--cian); text-decoration: none; margin: 0 25px; font-weight: bold; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .navbar a { color: var(--cian); text-decoration: none; margin: 0 25px; font-weight: bold; display: flex; align-items: center; gap: 8px; }
 
         /* --- SECCIONES --- */
         section { 
@@ -84,29 +82,23 @@
             padding-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* --- DASHBOARD --- */
+        /* --- DASHBOARD CARDS --- */
         #status { 
             font-size: 0.9em; font-weight: bold; padding: 12px 25px; 
             border-radius: 30px; display: inline-block; margin-bottom: 40px;
-            text-transform: uppercase; letter-spacing: 1px;
         }
-
         .cards-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; width: 100%; }
         .card { 
             background: var(--tarjeta); padding: 30px; border-radius: 18px; 
             border: 2px solid var(--cian); width: 260px; 
             box-shadow: 0 8px 25px rgba(0,0,0,0.6);
-            display: flex; flex-direction: column; align-items: center;
-            transition: 0.3s;
         }
-        .card:hover { transform: translateY(-8px); }
-        .card-icon { font-size: 3.8em; margin-bottom: 18px; }
         .value { font-size: 3em; color: var(--cian); font-weight: bold; margin: 10px 0; }
         .unit { font-size: 0.4em; color: #666; margin-left: 5px; }
 
-        /* --- GRÁFICAS (AJUSTADAS) --- */
+        /* --- TRENDS / GRÁFICAS (CORREGIDAS) --- */
         .charts-grid {
-            display: flex; /* Flex para mejor centrado */
+            display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 25px; 
@@ -119,39 +111,25 @@
             padding: 20px; 
             border-radius: 18px; 
             border: 1px solid #333; 
-            height: 300px; /* Un poco más de altura */
+            height: 320px; /* Altura optimizada */
             flex: 1;
-            min-width: 400px;
+            min-width: 420px; /* Evita que se amontonen los números */
             max-width: 550px;
             display: flex; 
             flex-direction: column;
             box-sizing: border-box;
         }
 
-        /* --- CONTACTO --- */
-        .contacto-panel {
-            background: var(--tarjeta); padding: 40px; border-radius: 20px; 
-            border: 2px solid var(--cian); width: 100%; max-width: 600px;
-            display: flex; flex-direction: column; align-items: center;
-        }
-        
-        .btn-universal { 
-            background-color: var(--cian); color: black; padding: 15px 35px; 
-            text-decoration: none; border-radius: 30px; font-weight: bold; 
-            display: inline-block; margin-top: 30px; transition: 0.3s;
-            text-transform: uppercase; font-size: 0.9em;
-        }
-
-        @media (max-width: 800px) { .chart-box { min-width: 100%; } }
+        @media (max-width: 850px) { .chart-box { min-width: 100%; } }
     </style>
 </head>
 <body>
 
     <div id="login-overlay">
         <div class="login-box">
-            <img src="perfil.jpg" alt="Elkis Serin" class="profile-img">
-            <h2 style="color: var(--cian); margin: 0 0 5px 0; font-size: 2em;">SERVA</h2>
-            <p style="color: #aaa; margin: 0 0 25px 0; font-size: 0.9em; text-transform: uppercase;">Industrial Solutions</p>
+            <img src="perfil.jpg" alt="Elkis Serin" class="profile-img" style="width:110px; height:110px; margin-bottom:20px;">
+            <h2 style="color: var(--cian); margin: 0; font-size: 2em;">SERVA</h2>
+            <p style="color: #aaa; margin-bottom: 25px; font-size: 0.9em; text-transform: uppercase;">Industrial Solutions</p>
             <input type="text" id="userInput" placeholder="Usuario">
             <input type="password" id="passInput" placeholder="Contraseña">
             <button onclick="validarAcceso()">INGRESAR AL SISTEMA</button>
@@ -168,8 +146,8 @@
     <section id="inicio">
         <img src="perfil.jpg" alt="Elkis Serin" class="profile-img" style="width: 140px; height: 140px; margin-bottom: 30px;">
         <h1 style="font-size: 3.8em; margin: 0;">SERVA Industrial Solutions</h1>
-        <p style="font-size: 1.3em; color: #bbb; max-width: 700px; margin: 20px auto 40px auto;">Automatización, Instrumentación y Mantenimiento Minero.</p>
-        <a href="#monitoreo" class="btn-universal">ABRIR MONITOREO</a>
+        <p style="font-size: 1.3em; color: #bbb;">Automatización, Instrumentación y Mantenimiento .</p>
+        <a href="#monitoreo" class="btn-universal" style="background:var(--cian); color:black; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:bold; margin-top:20px;">ABRIR MONITOREO</a>
     </section>
 
     <section id="monitoreo">
@@ -180,17 +158,17 @@
 
         <div class="cards-container">
             <div class="card">
-                <i class="fas fa-thermometer-half card-icon" style="color: var(--naranja);"></i>
+                <i class="fas fa-thermometer-half" style="color: var(--naranja); font-size:3.5em;"></i>
                 <h3>Temperatura</h3>
                 <div id="temp" class="value">0<span class="unit">°C</span></div>
             </div>
             <div class="card">
-                <i class="fas fa-tachometer-alt card-icon" style="color: var(--verde);"></i>
+                <i class="fas fa-tachometer-alt" style="color: var(--verde); font-size:3.5em;"></i>
                 <h3>Velocidad</h3>
                 <div id="vel" class="value">0<span class="unit">RPM</span></div>
             </div>
             <div class="card">
-                <i class="fas fa-hourglass-half card-icon" style="color: var(--cian);"></i>
+                <i class="fas fa-hourglass-half" style="color: var(--cian); font-size:3.5em;"></i>
                 <h3>Horas de Uso</h3>
                 <div id="horas" class="value" style="font-size: 2.2em;">00:00:00<span class="unit">h</span></div>
             </div>
@@ -198,11 +176,11 @@
 
         <div class="charts-grid">
             <div class="chart-box">
-                <h4 style="color: var(--naranja);"><i class="fas fa-chart-area"></i> TENDENCIA TEMPERATURA</h4>
+                <h4 style="color: var(--naranja); margin-top:0;"><i class="fas fa-chart-area"></i> TENDENCIA TEMPERATURA</h4>
                 <canvas id="tempChart"></canvas>
             </div>
             <div class="chart-box">
-                <h4 style="color: var(--verde);"><i class="fas fa-chart-line"></i> TENDENCIA VELOCIDAD</h4>
+                <h4 style="color: var(--verde); margin-top:0;"><i class="fas fa-chart-line"></i> TENDENCIA VELOCIDAD</h4>
                 <canvas id="velChart"></canvas>
             </div>
         </div>
@@ -210,14 +188,10 @@
 
     <section id="contacto">
         <h2 class="section-title">CONTACTO TÉCNICO</h2>
-        <div class="contacto-panel">
+        <div style="background:var(--tarjeta); padding:40px; border-radius:20px; border:2px solid var(--cian); width:100%; max-width:500px;">
             <p style="font-size: 1.6em; font-weight: bold; color: var(--cian);">ELKIS SERIN VASQUEZ</p>
-            <p style="color: #eee;">Especialista en Automatización Industrial</p>
-            <div style="border-top: 1px solid #333; width: 100%; margin: 20px 0;"></div>
             <p style="color: #aaa;"><i class="fas fa-map-marker-alt"></i> La Libertad - Trujillo - Perú</p>
-            <a href="https://wa.me/tu-numero" target="_blank" class="btn-universal" style="background-color: #25D366; color: white;">
-                <i class="fab fa-whatsapp"></i> WHATSAPP
-            </a>
+            <p style="color: #eee;">Especialista en Automatización Industrial</p>
         </div>
     </section>
 
@@ -243,15 +217,20 @@
                 maintainAspectRatio: false,
                 layout: {
                     padding: {
-                        left: 10,   // Espacio extra para que el "0" no se salga
-                        right: 20,
+                        left: 35,   // Margen amplio para que el 3100 no se corte
+                        right: 25,
+                        top: 15,
                         bottom: 10
                     }
                 },
                 scales: {
                     y: { 
-                        grid: { color: '#2a2a2a' }, 
-                        ticks: { color: '#777', padding: 10 }, // Padding en los números
+                        grid: { color: '#2a2a2a', drawTicks: false }, 
+                        ticks: { 
+                            color: '#888', 
+                            padding: 12,    // Separa los números de la línea del eje
+                            font: { size: 12 }
+                        }, 
                         beginAtZero: true 
                     },
                     x: { grid: { display: false }, ticks: { display: false } }
@@ -269,15 +248,16 @@
             velChart = new Chart(document.getElementById('velChart'), {
                 type: 'line',
                 data: { labels: [], datasets: [{ data: [], borderColor: '#00ff00', backgroundColor: 'rgba(0, 255, 0, 0.1)', fill: true, tension: 0.4 }] },
-                options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, min: 0, max: 3100 } } }
+                options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, min: 0, max: 3500 } } }
             });
         }
 
         function iniciarMQTT() {
             const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
             client.on('connect', () => {
-                document.getElementById('status').innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
-                document.getElementById('status').style.color = "#00ff00";
+                const st = document.getElementById('status');
+                st.innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
+                st.style.color = "#00ff00";
                 client.subscribe('serva/planta1/monitoreo');
             });
 
@@ -285,9 +265,7 @@
                 const data = JSON.parse(message.toString());
                 if(data.temperatura !== undefined) {
                     lastTemp = Math.round(data.temperatura);
-                    const el = document.getElementById('temp');
-                    el.innerHTML = `${lastTemp}<span class="unit">°C</span>`;
-                    el.style.color = (lastTemp > 80) ? "#ff3333" : "#00e5ff";
+                    document.getElementById('temp').innerHTML = `${lastTemp}<span class="unit">°C</span>`;
                 }
                 if(data.velocidad !== undefined) {
                     lastVel = Math.round(data.velocidad);

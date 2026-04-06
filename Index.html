@@ -23,7 +23,7 @@
         #inicio h1 { font-size: 2.5em; margin: 10px 0; color: white; }
         #inicio p { color: #ccc; font-size: 1.2em; max-width: 600px; }
 
-        /* Sección Monitoreo - Tus medidores originales mejorados */
+        /* Sección Monitoreo - Tus medidores mejorados */
         #monitoreo { background-color: #262626; border-top: 1px solid #333; }
         .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px; }
         .card { background: #1a1a1a; padding: 25px; border-radius: 15px; border: 2px solid #00e5ff; width: 250px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
@@ -81,6 +81,12 @@
                 <div id="vel" class="value">0<span class="unit">RPM</span></div>
                 <div style="color: #5a5c63; font-size: 0.8em;">Motor Extrusora M1</div>
             </div>
+
+            <div class="card">
+                <h3>Horómetro</h3>
+                <div id="horas" class="value">0<span class="unit">h</span></div>
+                <div style="color: #5a5c63; font-size: 0.8em;">Operación Total</div>
+            </div>
         </div>
     </section>
 
@@ -93,52 +99,46 @@
     </section>
 
     <script>
-        // --- CONFIGURACIÓN MQTT (Mantenemos la que ya tenías) ---
-        // Usamos websockets (wss) para que funcione en navegadores web (puerto 8081)
         const client = mqtt.connect('wss://test.mosquitto.org:8081');
         const statusDiv = document.getElementById('status');
 
         client.on('connect', () => {
             console.log('Conectado a MQTT');
             statusDiv.innerText = "● ONLINE - RECIBIENDO DATOS";
-            statusDiv.style.color = "#00ff00"; // Verde
+            statusDiv.style.color = "#00ff00";
             statusDiv.style.backgroundColor = "rgba(0,255,0,0.1)";
-            
-            // Suscribirse al tema (asegúrate que sea el mismo de Node-RED)
             client.subscribe('serva/planta1/monitoreo');
         });
 
         client.on('error', (error) => {
             console.error('Error MQTT:', error);
             statusDiv.innerText = "❌ ERROR DE CONEXIÓN";
-            statusDiv.style.color = "#ff3333"; // Rojo
+            statusDiv.style.color = "#ff3333";
             statusDiv.style.backgroundColor = "rgba(255,51,51,0.1)";
         });
 
         client.on('message', (topic, message) => {
-            console.log('Mensaje recibido en:', topic);
             try {
-                // Parsea el JSON que viene de Node-RED
                 const data = JSON.parse(message.toString());
-                console.log(data);
-
-                // Actualiza los valores en la web (revisamos que los IDs coincidan con el HTML)
+                
+                // Actualizar Temperatura
                 if(data.temperatura !== undefined) {
                     const tempVal = Math.round(data.temperatura);
                     const tempElement = document.getElementById('temp');
                     tempElement.innerHTML = `${tempVal}<span class="unit">°C</span>`;
-
-                    // Alerta visual si la temperatura es alta (>80°C)
-                    if (tempVal > 80) {
-                        tempElement.style.color = "#ff3333"; // Rojo alerta
-                    } else {
-                        tempElement.style.color = "#00e5ff"; // Cyan normal
-                    }
+                    tempElement.style.color = (tempVal > 80) ? "#ff3333" : "#00e5ff";
                 }
 
+                // Actualizar Velocidad
                 if(data.velocidad !== undefined) {
                     const velVal = Math.round(data.velocidad);
                     document.getElementById('vel').innerHTML = `${velVal}<span class="unit">RPM</span>`;
+                }
+
+                // Actualizar Horómetro (Lógica nueva)
+                if(data.horas !== undefined) {
+                    const horasVal = data.horas; // Muestra decimales si los envías (ej: 1.5h)
+                    document.getElementById('horas').innerHTML = `${horasVal}<span class="unit">h</span>`;
                 }
 
             } catch (e) {

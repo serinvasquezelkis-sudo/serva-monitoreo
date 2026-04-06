@@ -14,7 +14,7 @@
             --cian: #00e5ff;
             --naranja: #ffae00;
             --verde: #00ff00;
-            --fondo: #121212; /* Un tono más oscuro para mejor contraste */
+            --fondo: #121212;
             --tarjeta: #1e1e1e;
             --negro-puro: #000000;
         }
@@ -28,10 +28,9 @@
             scroll-behavior: smooth; 
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centrado Global */
+            align-items: center;
         }
 
-        /* Estilo de Foto de Perfil Universal */
         .profile-img {
             border-radius: 50%;
             border: 3px solid var(--cian);
@@ -39,12 +38,12 @@
             object-fit: cover;
         }
 
-        /* --- LOGIN OVERLAY --- */
+        /* --- LOGIN --- */
         #login-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background-color: var(--negro-puro); 
             z-index: 9999; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; /* Centrado Absoluto */
+            justify-content: center; align-items: center;
         }
         .login-box { 
             background: var(--tarjeta); padding: 40px; border-radius: 20px; 
@@ -62,7 +61,6 @@
             padding: 12px 30px; border-radius: 25px; font-weight: bold; 
             cursor: pointer; transition: 0.3s; margin-top: 15px; width: 100%;
         }
-        .login-box button:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--cian); }
 
         /* --- NAVBAR --- */
         .navbar { 
@@ -71,28 +69,22 @@
             border-bottom: 2px solid var(--cian); display: flex; justify-content: center;
         }
         .navbar a { color: var(--cian); text-decoration: none; margin: 0 25px; font-weight: bold; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
-        .navbar a:hover { text-shadow: 0 0 10px var(--cian); color: white; }
 
         /* --- SECCIONES --- */
         section { 
             padding: 120px 20px 60px 20px; 
-            min-height: 85vh; 
-            width: 100%; 
-            max-width: 1400px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; /* Centrado de Contenido */
+            min-height: 85vh; width: 100%; max-width: 1400px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
             box-sizing: border-box;
         }
         
-        h2.section-title { 
+        .section-title { 
             font-size: 2.2em; margin-bottom: 40px; 
             border-bottom: 2px solid #333; display: inline-block; 
             padding-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;
         }
 
-        /* --- DASHBOARD MONITOREO --- */
+        /* --- DASHBOARD --- */
         #status { 
             font-size: 0.9em; font-weight: bold; padding: 12px 25px; 
             border-radius: 30px; display: inline-block; margin-bottom: 40px;
@@ -107,53 +99,37 @@
             display: flex; flex-direction: column; align-items: center;
             transition: 0.3s;
         }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,229,255,0.2); }
+        .card:hover { transform: translateY(-8px); }
         .card-icon { font-size: 3.8em; margin-bottom: 18px; }
-        .card h3 { margin: 0; color: #aaa; font-size: 1.1em; text-transform: uppercase; }
         .value { font-size: 3em; color: var(--cian); font-weight: bold; margin: 10px 0; }
         .unit { font-size: 0.4em; color: #666; margin-left: 5px; }
 
-        /* --- GRÁFICAS COMPACTAS --- */
+        /* --- GRÁFICAS --- */
         .charts-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 25px; width: 100%; max-width: 1100px; margin: 50px auto;
         }
         .chart-box {
             background: var(--tarjeta); padding: 20px; border-radius: 18px; 
-            border: 1px solid #333; 
-            height: 280px; /* Tamaño Reducido y Compacto */
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid #333; height: 280px;
             display: flex; flex-direction: column;
         }
-        .chart-box h4 { margin: 0 0 15px 0; font-size: 1em; display: flex; align-items: center; justify-content: center; gap: 8px; }
 
-        /* --- REDISEÑO SECCIÓN CONTACTO --- */
+        /* --- CONTACTO --- */
         .contacto-panel {
-            background: var(--tarjeta); 
-            padding: 40px; 
-            border-radius: 20px; 
-            border: 2px solid var(--cian); 
-            box-shadow: 0 0 25px rgba(0,229,255,0.3);
-            width: 100%;
-            max-width: 600px;
+            background: var(--tarjeta); padding: 40px; border-radius: 20px; 
+            border: 2px solid var(--cian); width: 100%; max-width: 600px;
             display: flex; flex-direction: column; align-items: center;
         }
-        .contacto-panel p { margin: 10px 0; font-size: 1.1em; }
-        .contacto-info { color: #aaa; display: flex; align-items: center; gap: 10px; margin-top: 15px; }
         
         .btn-universal { 
             background-color: var(--cian); color: black; padding: 15px 35px; 
             text-decoration: none; border-radius: 30px; font-weight: bold; 
             display: inline-block; margin-top: 30px; transition: 0.3s;
-            text-transform: uppercase; font-size: 0.9em; letter-spacing: 1px;
+            text-transform: uppercase; font-size: 0.9em;
         }
-        .btn-universal:hover { background-color: white; box-shadow: 0 0 20px var(--cian); transform: scale(1.03); }
 
-        /* Responsividad Básica */
-        @media (max-width: 800px) {
-            .charts-grid { grid-template-columns: 1fr; }
-            .navbar a { margin: 0 10px; font-size: 0.8em; }
-        }
+        @media (max-width: 800px) { .charts-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -161,12 +137,12 @@
     <div id="login-overlay">
         <div class="login-box">
             <img src="perfil.jpg" alt="Elkis Serin" class="profile-img">
-            <h2 style="color: var(--cian); border: none; margin: 0 0 5px 0; font-size: 2em;">SERVA</h2>
+            <h2 style="color: var(--cian); margin: 0 0 5px 0; font-size: 2em;">SERVA</h2>
             <p style="color: #aaa; margin: 0 0 25px 0; font-size: 0.9em; text-transform: uppercase;">Industrial Solutions</p>
             <input type="text" id="userInput" placeholder="Usuario">
             <input type="password" id="passInput" placeholder="Contraseña">
             <button onclick="validarAcceso()">INGRESAR AL SISTEMA</button>
-            <p id="errorMsg" style="color: #ff3333; display: none; margin-top: 15px; font-size: 0.9em;">Acceso Denegado</p>
+            <p id="errorMsg" style="color: #ff3333; display: none; margin-top: 15px;">Acceso Denegado</p>
         </div>
     </div>
 
@@ -177,18 +153,16 @@
     </nav>
 
     <section id="inicio">
-        <img src="perfil.jpg" alt="Elkis Serin Vasquez" class="profile-img" style="width: 140px; height: 140px; margin-bottom: 30px;">
-        
-        <h1 style="font-size: 3.8em; margin: 0 0 15px 0;">SERVA Industrial Solutions</h1>
-        <p style="font-size: 1.3em; color: #bbb; max-width: 700px; margin: 0 auto 40px auto; line-height: 1.6;">Ingeniería avanzada en Automatización, Instrumentación y Mantenimiento para el sector Minero e Industrial.</p>
-        <a href="#monitoreo" class="btn-universal">ABRIR DASHBOARD EN VIVO</a>
+        <img src="perfil.jpg" alt="Elkis Serin" class="profile-img" style="width: 140px; height: 140px; margin-bottom: 30px;">
+        <h1 style="font-size: 3.8em; margin: 0;">SERVA Industrial Solutions</h1>
+        <p style="font-size: 1.3em; color: #bbb; max-width: 700px; margin: 20px auto 40px auto;">Automatización, Instrumentación y Mantenimiento Minero.</p>
+        <a href="#monitoreo" class="btn-universal">ABRIR DASHBOARD</a>
     </section>
 
     <section id="monitoreo">
         <h2 class="section-title">PANEL DE CONTROL PLC</h2>
-        
         <div id="status" style="color: var(--naranja); background-color: rgba(255,174,0,0.1); border: 1px solid rgba(255,174,0,0.3);">
-            <i class="fas fa-sync fa-spin"></i> ESPERANDO DATOS MQTT...
+            <i class="fas fa-sync fa-spin"></i> ESPERANDO DATOS...
         </div>
 
         <div class="cards-container">
@@ -223,136 +197,86 @@
 
     <section id="contacto">
         <h2 class="section-title">CONTACTO TÉCNICO</h2>
-        
         <div class="contacto-panel">
-            <p style="font-size: 1.6em; font-weight: bold; color: var(--cian); margin-bottom: 5px;">ELKIS SERIN VASQUEZ</p>
-            <p style="color: #eee; margin-top: 0; font-weight: 500;">Especialista en Automatización y Control Industrial</p>
-            
+            <p style="font-size: 1.6em; font-weight: bold; color: var(--cian);">ELKIS SERIN VASQUEZ</p>
+            <p style="color: #eee;">Especialista en Automatización Industrial</p>
             <div style="border-top: 1px solid #333; width: 100%; margin: 20px 0;"></div>
-            
-            <div class="contacto-info">
-                <i class="fas fa-map-marker-alt" style="color: var(--cian);"></i> 
-                Trujillo - La Libertad, Perú
-            </div>
-            <div class="contacto-info">
-                <i class="fas fa-briefcase" style="color: var(--cian);"></i> 
-                SERVA Industrial Solutions
-            </div>
-            
-            <a href="https://wa.me/tu-numero-aqui" target="_blank" class="btn-universal" style="background-color: #25D366; color: white;">
-                <i class="fab fa-whatsapp" style="font-size: 1.2em; margin-right: 10px;"></i> CONTACTAR POR WHATSAPP
+            <p style="color: #aaa;"><i class="fas fa-map-marker-alt"></i> Trujillo - Perú</p>
+            <a href="https://wa.me/tu-numero" target="_blank" class="btn-universal" style="background-color: #25D366; color: white;">
+                <i class="fab fa-whatsapp"></i> WHATSAPP
             </a>
         </div>
     </section>
 
     <script>
         let tempChart, velChart;
-        const maxPoints = 25; // Puntos mostrados en gráfica
+        let lastTemp = 0, lastVel = 0;
+        const maxPoints = 30;
 
         function validarAcceso() {
-            const user = document.getElementById('userInput').value;
-            const pass = document.getElementById('passInput').value;
-            
-            if (user === "elkis" && pass === "serva2026") {
+            if (document.getElementById('userInput').value === "elkis" && document.getElementById('passInput').value === "serva2026") {
                 document.getElementById('login-overlay').style.display = 'none';
                 initCharts();
                 iniciarMQTT();
+                // Iniciar ciclo de actualización cada 3 segundos
+                setInterval(muestreoDatos, 3000);
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
-                setTimeout(() => { document.getElementById('errorMsg').style.display = 'none'; }, 3000);
             }
         }
 
         function initCharts() {
-            // Configuración común optimizada para tamaño compacto
             const commonOptions = {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, maintainAspectRatio: false,
                 scales: {
-                    y: { 
-                        grid: { color: '#2a2a2a' }, 
-                        ticks: { color: '#777', font: { size: 10 } },
-                        beginAtZero: true
-                    },
-                    x: { 
-                        grid: { display: false }, 
-                        ticks: { color: '#777', font: { size: 10 }, maxRotation: 0 } 
-                    }
+                    y: { grid: { color: '#2a2a2a' }, ticks: { color: '#777' }, beginAtZero: true },
+                    x: { grid: { display: false }, ticks: { display: false } }
                 },
-                plugins: { 
-                    legend: { display: false },
-                    tooltip: { enabled: true, mode: 'index', intersect: false }
-                },
-                elements: {
-                    point: { radius: 0, hitRadius: 10, hoverRadius: 4 } // Puntos ocultos por defecto para limpieza
-                }
+                plugins: { legend: { display: false } },
+                elements: { point: { radius: 0 } }
             };
 
-            // Gráfica Temperatura
             tempChart = new Chart(document.getElementById('tempChart'), {
                 type: 'line',
-                data: { 
-                    labels: [], 
-                    datasets: [{ 
-                        data: [], borderColor: '#ffae00', 
-                        backgroundColor: 'rgba(255, 174, 0, 0.08)', 
-                        fill: true, tension: 0.4, borderWidth: 2.5
-                    }] 
-                },
-                options: commonOptions
+                data: { labels: [], datasets: [{ data: [], borderColor: '#ffae00', backgroundColor: 'rgba(255, 174, 0, 0.1)', fill: true, tension: 0.4 }] },
+                options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, min: 0, max: 110 } } }
             });
 
-            // Gráfica Velocidad
             velChart = new Chart(document.getElementById('velChart'), {
                 type: 'line',
-                data: { 
-                    labels: [], 
-                    datasets: [{ 
-                        data: [], borderColor: '#00ff00', 
-                        backgroundColor: 'rgba(0, 255, 0, 0.08)', 
-                        fill: true, tension: 0.4, borderWidth: 2.5
-                    }] 
-                },
-                options: commonOptions
+                data: { labels: [], datasets: [{ data: [], borderColor: '#00ff00', backgroundColor: 'rgba(0, 255, 0, 0.1)', fill: true, tension: 0.4 }] },
+                options: { ...commonOptions, scales: { ...commonOptions.scales, y: { ...commonOptions.scales.y, min: 0, max: 3100 } } }
             });
         }
 
         function iniciarMQTT() {
             const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
-
             client.on('connect', () => {
-                const statusDiv = document.getElementById('status');
-                statusDiv.innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA SERVA ONLINE - RECIBIENDO DATOS';
-                statusDiv.style.color = "#00ff00";
-                statusDiv.style.backgroundColor = "rgba(0,255,0,0.08)";
-                statusDiv.style.border = "1px solid rgba(0,255,0,0.3)";
+                document.getElementById('status').innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
+                document.getElementById('status').style.color = "#00ff00";
                 client.subscribe('serva/planta1/monitoreo');
             });
 
             client.on('message', (topic, message) => {
-                try {
-                    const data = JSON.parse(message.toString());
-                    const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-
-                    if(data.temperatura !== undefined) {
-                        const t = Math.round(data.temperatura);
-                        const el = document.getElementById('temp');
-                        el.innerHTML = `${t}<span class="unit">°C</span>`;
-                        el.style.color = (t > 80) ? "#ff3333" : "#ffae00"; 
-                        updateChart(tempChart, hora, t);
-                    }
-
-                    if(data.velocidad !== undefined) {
-                        const v = Math.round(data.velocidad);
-                        document.getElementById('vel').innerHTML = `${v}<span class="unit">RPM</span>`;
-                        updateChart(velChart, hora, v);
-                    }
-
-                    if(data.tiempo_total !== undefined) {
-                        document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
-                    }
-                } catch (e) { console.error("Error en datos:", e); }
+                const data = JSON.parse(message.toString());
+                if(data.temperatura !== undefined) {
+                    lastTemp = Math.round(data.temperatura);
+                    const el = document.getElementById('temp');
+                    el.innerHTML = `${lastTemp}<span class="unit">°C</span>`;
+                    el.style.color = (lastTemp > 80) ? "#ff3333" : "#00e5ff";
+                }
+                if(data.velocidad !== undefined) {
+                    lastVel = Math.round(data.velocidad);
+                    document.getElementById('vel').innerHTML = `${lastVel}<span class="unit">RPM</span>`;
+                }
+                if(data.tiempo_total !== undefined) document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
             });
+        }
+
+        function muestreoDatos() {
+            const hora = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            updateChart(tempChart, hora, lastTemp);
+            updateChart(velChart, hora, lastVel);
         }
 
         function updateChart(chart, label, value) {
@@ -362,7 +286,7 @@
                 chart.data.labels.shift();
                 chart.data.datasets[0].data.shift();
             }
-            chart.update('none'); // Update sin animaciones para rendimiento
+            chart.update('none');
         }
     </script>
 </body>

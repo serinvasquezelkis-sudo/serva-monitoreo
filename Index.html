@@ -7,6 +7,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
@@ -214,9 +215,12 @@
         }
 
         function initCharts() {
+            // Registrar el plugin de etiquetas de datos
+            Chart.register(ChartDataLabels);
+
             const commonOptions = {
                 responsive: true, maintainAspectRatio: false,
-                layout: { padding: { left: 35, right: 25, top: 15, bottom: 10 } },
+                layout: { padding: { left: 35, right: 25, top: 25, bottom: 10 } },
                 scales: {
                     y: { 
                         grid: { color: '#2a2a2a', drawTicks: false }, 
@@ -225,8 +229,27 @@
                     },
                     x: { grid: { display: false }, ticks: { display: false } }
                 },
-                plugins: { legend: { display: false } },
-                elements: { point: { radius: 0 } }
+                plugins: { 
+                    legend: { display: false },
+                    // Configuración de las etiquetas sobre la línea
+                    datalabels: {
+                        color: '#ffffff',
+                        align: 'top',
+                        offset: 5,
+                        font: { weight: 'bold', size: 11 },
+                        formatter: Math.round,
+                        display: function(context) {
+                            // Mostrar solo los últimos 7 puntos para que no se amontone
+                            return context.dataIndex > context.dataset.data.length - 8;
+                        }
+                    }
+                },
+                elements: { 
+                    point: { 
+                        radius: 3, // Puntos un poco más visibles para situar el número
+                        backgroundColor: var => var.dataset.borderColor 
+                    } 
+                }
             };
 
             tempChart = new Chart(document.getElementById('tempChart'), {

@@ -104,12 +104,7 @@
             min-width: 420px; max-width: 550px; display: flex; flex-direction: column;
         }
 
-        /* --- BOTÓN WHATSAPP Y CONTACTO --- */
-        .contacto-card {
-            background: var(--tarjeta); padding: 40px; border-radius: 20px; 
-            border: 2px solid var(--cian); width: 100%; max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        /* --- BOTÓN WHATSAPP --- */
         .btn-ws {
             background-color: #25D366; color: white; padding: 15px 35px; 
             text-decoration: none; border-radius: 30px; font-weight: bold; 
@@ -191,7 +186,6 @@
             <p style="color: #eee; margin: 10px 0;">Especialista en Automatización Industrial</p>
             <div style="border-top: 1px solid #333; width: 100%; margin: 20px 0;"></div>
             <p style="color: #aaa;"><i class="fas fa-map-marker-alt"></i> Trujillo, La Libertad - Perú</p>
-            
             <a href="https://wa.me/51942358041" target="_blank" class="btn-ws">
                 <i class="fab fa-whatsapp" style="font-size: 1.5em;"></i> CONTACTAR POR WHATSAPP
             </a>
@@ -206,7 +200,6 @@
         function validarAcceso() {
             const user = document.getElementById('userInput').value;
             const pass = document.getElementById('passInput').value;
-            
             if (user === "elkis" && pass === "serva2026") {
                 document.getElementById('login-overlay').style.display = 'none';
                 initCharts();
@@ -218,12 +211,11 @@
         }
 
         function initCharts() {
-            // Registrar el plugin
             Chart.register(ChartDataLabels);
 
             const commonOptions = {
                 responsive: true, maintainAspectRatio: false,
-                layout: { padding: { left: 35, right: 25, top: 25, bottom: 10 } },
+                layout: { padding: { left: 10, right: 50, top: 30, bottom: 10 } }, // Padding derecho aumentado para el valor
                 scales: {
                     y: { 
                         grid: { color: '#2a2a2a' }, 
@@ -237,11 +229,12 @@
                     datalabels: {
                         color: '#ffffff',
                         align: 'top',
-                        font: { weight: 'bold', size: 11 },
+                        offset: 5,
+                        font: { weight: 'bold', size: 12 },
                         formatter: Math.round,
                         display: function(context) {
-                            // Solo mostrar los últimos 7 valores
-                            return context.dataIndex > context.dataset.data.length - 8;
+                            // MOSTRAR SOLO EL ÚLTIMO VALOR
+                            return context.dataIndex === context.dataset.data.length - 1;
                         }
                     }
                 }
@@ -263,12 +256,10 @@
         function iniciarMQTT() {
             const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
             client.on('connect', () => {
-                const st = document.getElementById('status');
-                st.innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
-                st.style.color = "#00ff00";
+                document.getElementById('status').innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
+                document.getElementById('status').style.color = "#00ff00";
                 client.subscribe('serva/planta1/monitoreo');
             });
-
             client.on('message', (topic, message) => {
                 const data = JSON.parse(message.toString());
                 if(data.temperatura !== undefined) {

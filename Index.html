@@ -104,15 +104,28 @@
         .value { font-size: 3em; color: var(--cian); font-weight: bold; margin: 10px 0; }
         .unit { font-size: 0.4em; color: #666; margin-left: 5px; }
 
-        /* --- GRÁFICAS --- */
+        /* --- GRÁFICAS (AJUSTADAS) --- */
         .charts-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 25px; width: 100%; max-width: 1100px; margin: 50px auto;
+            display: flex; /* Flex para mejor centrado */
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px; 
+            width: 100%; 
+            max-width: 1200px; 
+            margin: 50px auto;
         }
         .chart-box {
-            background: var(--tarjeta); padding: 20px; border-radius: 18px; 
-            border: 1px solid #333; height: 280px;
-            display: flex; flex-direction: column;
+            background: var(--tarjeta); 
+            padding: 20px; 
+            border-radius: 18px; 
+            border: 1px solid #333; 
+            height: 300px; /* Un poco más de altura */
+            flex: 1;
+            min-width: 400px;
+            max-width: 550px;
+            display: flex; 
+            flex-direction: column;
+            box-sizing: border-box;
         }
 
         /* --- CONTACTO --- */
@@ -129,7 +142,7 @@
             text-transform: uppercase; font-size: 0.9em;
         }
 
-        @media (max-width: 800px) { .charts-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 800px) { .chart-box { min-width: 100%; } }
     </style>
 </head>
 <body>
@@ -218,7 +231,6 @@
                 document.getElementById('login-overlay').style.display = 'none';
                 initCharts();
                 iniciarMQTT();
-                // Iniciar ciclo de actualización cada 3 segundos
                 setInterval(muestreoDatos, 3000);
             } else {
                 document.getElementById('errorMsg').style.display = 'block';
@@ -227,9 +239,21 @@
 
         function initCharts() {
             const commonOptions = {
-                responsive: true, maintainAspectRatio: false,
+                responsive: true, 
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,   // Espacio extra para que el "0" no se salga
+                        right: 20,
+                        bottom: 10
+                    }
+                },
                 scales: {
-                    y: { grid: { color: '#2a2a2a' }, ticks: { color: '#777' }, beginAtZero: true },
+                    y: { 
+                        grid: { color: '#2a2a2a' }, 
+                        ticks: { color: '#777', padding: 10 }, // Padding en los números
+                        beginAtZero: true 
+                    },
                     x: { grid: { display: false }, ticks: { display: false } }
                 },
                 plugins: { legend: { display: false } },

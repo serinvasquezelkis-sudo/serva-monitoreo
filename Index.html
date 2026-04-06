@@ -89,9 +89,23 @@
             background: var(--tarjeta); padding: 30px; border-radius: 18px; 
             border: 2px solid var(--cian); width: 260px; 
             box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+            transition: 0.3s;
         }
         .value { font-size: 3em; color: var(--cian); font-weight: bold; margin: 10px 0; }
         .unit { font-size: 0.4em; color: #666; margin-left: 5px; }
+
+        /* --- ALERTA TEMPERATURA --- */
+        .alert-critical {
+            background: rgba(255, 0, 0, 0.15) !important;
+            border: 2px solid #ff0000 !important;
+            animation: pulse-red 1.5s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 10px #ff0000; }
+            50% { box-shadow: 0 0 25px #ff0000; }
+            100% { box-shadow: 0 0 10px #ff0000; }
+        }
 
         /* --- GRÁFICAS --- */
         .charts-grid {
@@ -150,7 +164,7 @@
         </div>
 
         <div class="cards-container">
-            <div class="card">
+            <div id="card_temp" class="card">
                 <i class="fas fa-thermometer-half" style="color: var(--naranja); font-size:3.5em;"></i>
                 <h3>Temperatura</h3>
                 <div id="temp" class="value">0<span class="unit">°C</span></div>
@@ -215,7 +229,7 @@
 
             const commonOptions = {
                 responsive: true, maintainAspectRatio: false,
-                layout: { padding: { left: 10, right: 50, top: 30, bottom: 10 } }, // Padding derecho aumentado para el valor
+                layout: { padding: { left: 10, right: 50, top: 30, bottom: 10 } },
                 scales: {
                     y: { 
                         grid: { color: '#2a2a2a' }, 
@@ -233,7 +247,6 @@
                         font: { weight: 'bold', size: 12 },
                         formatter: Math.round,
                         display: function(context) {
-                            // MOSTRAR SOLO EL ÚLTIMO VALOR
                             return context.dataIndex === context.dataset.data.length - 1;
                         }
                     }
@@ -256,21 +269,48 @@
         function iniciarMQTT() {
             const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
             client.on('connect', () => {
-                document.getElementById('status').innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
-                document.getElementById('status').style.color = "#00ff00";
+                const statusLabel = document.getElementById('status');
+                statusLabel.innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
+                statusLabel.style.color = "#00ff00";
                 client.subscribe('serva/planta1/monitoreo');
             });
+
             client.on('message', (topic, message) => {
                 const data = JSON.parse(message.toString());
+                
+                // --- MANEJO DE TEMPERATURA Y ALERTA ---
                 if(data.temperatura !== undefined) {
                     lastTemp = Math.round(data.temperatura);
-                    document.getElementById('temp').innerHTML = `${lastTemp}<span class="unit">°C</span>`;
+                    const tempDiv = document.getElementById('temp');
+                    const tempCard = document.getElementById('card_temp');
+                    const statusLabel = document.getElementById('status');
+                    
+                    tempDiv.innerHTML = `${lastTemp}<span class="unit">°C</span>`;
+
+                    // Lógica de alerta > 80°C
+                    if (lastTemp > 80) {
+                        tempCard.classList.add('alert-critical');
+                        tempDiv.style.color = "#ff3333";
+                        statusLabel.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ALERTA: ALTA TEMPERATURA';
+                        statusLabel.style.color = "#ff3333";
+                        statusLabel.style.backgroundColor = "rgba(255,0,0,0.15)";
+                    } else {
+                        tempCard.classList.remove('alert-critical');
+                        tempDiv.style.color = "var(--cian)";
+                        statusLabel.innerHTML = '<i class="fas fa-check-circle"></i> SISTEMA ONLINE';
+                        statusLabel.style.color = "#00ff00";
+                        statusLabel.style.backgroundColor = "rgba(0,255,0,0.1)";
+                    }
                 }
+
                 if(data.velocidad !== undefined) {
                     lastVel = Math.round(data.velocidad);
                     document.getElementById('vel').innerHTML = `${lastVel}<span class="unit">RPM</span>`;
                 }
-                if(data.tiempo_total !== undefined) document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
+                
+                if(data.tiempo_total !== undefined) {
+                    document.getElementById('horas').innerHTML = `${data.tiempo_total}<span class="unit">h</span>`;
+                }
             });
         }
 

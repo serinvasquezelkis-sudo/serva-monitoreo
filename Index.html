@@ -204,7 +204,10 @@
         const maxPoints = 30;
 
         function validarAcceso() {
-            if (document.getElementById('userInput').value === "elkis" && document.getElementById('passInput').value === "serva2026") {
+            const user = document.getElementById('userInput').value;
+            const pass = document.getElementById('passInput').value;
+            
+            if (user === "elkis" && pass === "serva2026") {
                 document.getElementById('login-overlay').style.display = 'none';
                 initCharts();
                 iniciarMQTT();
@@ -215,7 +218,7 @@
         }
 
         function initCharts() {
-            // Registrar el plugin de etiquetas de datos
+            // Registrar el plugin
             Chart.register(ChartDataLabels);
 
             const commonOptions = {
@@ -223,32 +226,24 @@
                 layout: { padding: { left: 35, right: 25, top: 25, bottom: 10 } },
                 scales: {
                     y: { 
-                        grid: { color: '#2a2a2a', drawTicks: false }, 
-                        ticks: { color: '#888', padding: 12, font: { size: 12 } }, 
+                        grid: { color: '#2a2a2a' }, 
+                        ticks: { color: '#888' }, 
                         beginAtZero: true 
                     },
                     x: { grid: { display: false }, ticks: { display: false } }
                 },
                 plugins: { 
                     legend: { display: false },
-                    // Configuración de las etiquetas sobre la línea
                     datalabels: {
                         color: '#ffffff',
                         align: 'top',
-                        offset: 5,
                         font: { weight: 'bold', size: 11 },
                         formatter: Math.round,
                         display: function(context) {
-                            // Mostrar solo los últimos 7 puntos para que no se amontone
+                            // Solo mostrar los últimos 7 valores
                             return context.dataIndex > context.dataset.data.length - 8;
                         }
                     }
-                },
-                elements: { 
-                    point: { 
-                        radius: 3, // Puntos un poco más visibles para situar el número
-                        backgroundColor: var => var.dataset.borderColor 
-                    } 
                 }
             };
 

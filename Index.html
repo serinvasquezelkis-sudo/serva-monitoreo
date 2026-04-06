@@ -1,60 +1,148 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>SERVA Industrial - Monitoreo Web</title>
+    <title>SERVA Industrial - Portal de Monitoreo</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
     <style>
-        body { background-color: #1a1b1e; color: white; font-family: sans-serif; text-align: center; }
-        .container { display: flex; justify-content: center; gap: 20px; margin-top: 50px; }
-        .card { background: #2a2b2f; padding: 20px; border-radius: 10px; border: 1px solid #00e5ff; width: 200px; }
-        .value { font-size: 2em; color: #00e5ff; font-weight: bold; }
-        .unit { font-size: 0.5em; color: #5a5c63; }
-        h1 { letter-spacing: 5px; color: #5a5c63; }
+        /* Estilos Globales - Fondo mate y Cyan SERVA */
+        body { background-color: #1a1a1a; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; text-align: center; scroll-behavior: smooth; }
+        
+        /* Menú de Navegación */
+        .navbar { background-color: #000; padding: 15px; position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid #00e5ff; }
+        .navbar a { color: #00e5ff; text-decoration: none; margin: 0 20px; font-weight: bold; font-size: 1.1em; transition: 0.3s; }
+        .navbar a:hover { color: white; text-shadow: 0 0 10px #00e5ff; }
+
+        /* Secciones Principales */
+        section { padding: 100px 20px; min-height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        
+        /* Sección Inicio - Tu Foto pro */
+        #inicio { background-color: #1a1a1a; }
+        .foto-perfil { width: 180px; height: 180px; border-radius: 50%; border: 4px solid #00e5ff; box-shadow: 0 0 20px rgba(0,229,255,0.5); object-fit: cover; margin-bottom: 20px; }
+        #inicio h1 { font-size: 2.5em; margin: 10px 0; color: white; }
+        #inicio p { color: #ccc; font-size: 1.2em; max-width: 600px; }
+
+        /* Sección Monitoreo - Tus medidores originales mejorados */
+        #monitoreo { background-color: #262626; border-top: 1px solid #333; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px; }
+        .card { background: #1a1a1a; padding: 25px; border-radius: 15px; border: 2px solid #00e5ff; width: 250px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,229,255,0.3); }
+        .card h3 { color: #888; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9em; }
+        .value { font-size: 3em; color: #00e5ff; font-weight: bold; margin: 15px 0; }
+        .unit { font-size: 0.4em; color: #5a5c63; margin-left: 5px; }
+        
+        /* Títulos y Status */
+        h2 { color: white; font-size: 2em; letter-spacing: 2px; margin-bottom: 10px; }
+        #status { font-size: 1em; font-weight: bold; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+
+        /* Sección Contacto */
+        #contacto { background-color: #1a1a1a; }
+        .btn-contacto { background-color: #00e5ff; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-weight: bold; margin-top: 20px; transition: 0.3s; }
+        .btn-contacto:hover { background-color: white; box-shadow: 0 0 15px #00e5ff; }
+
+        /* Ajustes para Celular */
+        @media (max-width: 600px) {
+            .navbar a { margin: 0 10px; font-size: 0.9em; }
+            #inicio h1 { font-size: 2em; }
+            .foto-perfil { width: 140px; height: 140px; }
+            .card { width: 80%; }
+        }
     </style>
 </head>
 <body>
-    <h1>SERVA INDUSTRIAL SOLUTIONS</h1>
-    <div id="status" style="color: #00ff00;">Conectando al servidor...</div>
 
-    <div class="container">
-        <div class="card">
-            <div>TEMPERATURA</div>
-            <div id="temp" class="value">0<span class="unit">°C</span></div>
+    <nav class="navbar">
+        <a href="#inicio">INICIO</a>
+        <a href="#monitoreo">MONITOREO</a>
+        <a href="#contacto">CONTACTO</a>
+    </nav>
+
+    <section id="inicio">
+        <img src="perfil.jpg" alt="Elkis Serin - Director Técnico" class="foto-perfil">
+        <h1>Elkis Serin Vasquez</h1>
+        <p>Director Técnico en SERVA Industrial Solutions. Bienvenido al portal oficial de monitoreo de planta en tiempo real.</p>
+        <a href="#monitoreo" class="btn-contacto">Ver Variables de Planta</a>
+    </section>
+
+    <section id="monitoreo">
+        <h2>PANEL DE CONTROL PLC</h2>
+        <div id="status" style="color: #ffcc00; background-color: rgba(255,204,0,0.1);">Conectando al servidor...</div>
+
+        <div class="container">
+            <div class="card">
+                <h3>Temperatura</h3>
+                <div id="temp" class="value">0<span class="unit">°C</span></div>
+                <div style="color: #5a5c63; font-size: 0.8em;">Sensor Principal T1</div>
+            </div>
+
+            <div class="card">
+                <h3>Velocidad</h3>
+                <div id="vel" class="value">0<span class="unit">RPM</span></div>
+                <div style="color: #5a5c63; font-size: 0.8em;">Motor Extrusora M1</div>
+            </div>
         </div>
-        <div class="card">
-            <div>VELOCIDAD</div>
-            <div id="vel" class="value">0<span class="unit">RPM</span></div>
-        </div>
-        <div class="card">
-            <div>HORÓMETRO</div>
-            <div id="time" class="value" style="font-size: 1.5em;">0:00:00</div>
-        </div>
-    </div>
+    </section>
+
+    <section id="contacto">
+        <h2>CONTACTO TÉCNICO</h2>
+        <p style="color: #ccc;">Para soporte o consultas sobre el sistema:</p>
+        <p style="color: white; font-size: 1.2em; font-weight: bold;">SERVA Industrial Solutions</p>
+        <p style="color: #888;">Trujillo - Perú</p>
+        <a href="mailto:tu-correo@serva.com" class="btn-contacto">Enviar Correo</a>
+    </section>
 
     <script>
-        // Conexión al mismo broker que Node-RED
+        // --- CONFIGURACIÓN MQTT (Mantenemos la que ya tenías) ---
+        // Usamos websockets (wss) para que funcione en navegadores web (puerto 8081)
         const client = mqtt.connect('wss://test.mosquitto.org:8081');
+        const statusDiv = document.getElementById('status');
 
         client.on('connect', () => {
-            document.getElementById('status').innerText = "ONLINE - RECIBIENDO DATOS";
-            // IMPORTANTE: Este debe ser el mismo TEMA que pusiste en el nodo mqtt out
-            client.subscribe('serva/planta1/monitoreo'); 
+            console.log('Conectado a MQTT');
+            statusDiv.innerText = "● ONLINE - RECIBIENDO DATOS";
+            statusDiv.style.color = "#00ff00"; // Verde
+            statusDiv.style.backgroundColor = "rgba(0,255,0,0.1)";
+            
+            // Suscribirse al tema (asegúrate que sea el mismo de Node-RED)
+            client.subscribe('serva/planta1/monitoreo');
+        });
+
+        client.on('error', (error) => {
+            console.error('Error MQTT:', error);
+            statusDiv.innerText = "❌ ERROR DE CONEXIÓN";
+            statusDiv.style.color = "#ff3333"; // Rojo
+            statusDiv.style.backgroundColor = "rgba(255,51,51,0.1)";
         });
 
         client.on('message', (topic, message) => {
-            const data = JSON.parse(message.toString());
-            
-            // Actualizar la web con los datos recibidos
-            document.getElementById('temp').innerHTML = Math.round(data.temperatura) + '<span class="unit">°C</span>';
-            document.getElementById('vel').innerHTML = data.velocidad + '<span class="unit">RPM</span>';
-            document.getElementById('time').innerText = data.tiempo_total;
+            console.log('Mensaje recibido en:', topic);
+            try {
+                // Parsea el JSON que viene de Node-RED
+                const data = JSON.parse(message.toString());
+                console.log(data);
 
-            // Alerta visual si la temperatura es alta
-            if(data.temperatura > 80) {
-                document.getElementById('temp').style.color = "#ff3333";
-            } else {
-                document.getElementById('temp').style.color = "#00e5ff";
+                // Actualiza los valores en la web (revisamos que los IDs coincidan con el HTML)
+                if(data.temperatura !== undefined) {
+                    const tempVal = Math.round(data.temperatura);
+                    const tempElement = document.getElementById('temp');
+                    tempElement.innerHTML = `${tempVal}<span class="unit">°C</span>`;
+
+                    // Alerta visual si la temperatura es alta (>80°C)
+                    if (tempVal > 80) {
+                        tempElement.style.color = "#ff3333"; // Rojo alerta
+                    } else {
+                        tempElement.style.color = "#00e5ff"; // Cyan normal
+                    }
+                }
+
+                if(data.velocidad !== undefined) {
+                    const velVal = Math.round(data.velocidad);
+                    document.getElementById('vel').innerHTML = `${velVal}<span class="unit">RPM</span>`;
+                }
+
+            } catch (e) {
+                console.error('Error al parsear JSON:', e);
             }
         });
     </script>

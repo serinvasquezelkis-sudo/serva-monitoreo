@@ -137,7 +137,7 @@
 
         // --- LÓGICA MQTT (Solo se activa tras el login) ---
         function iniciarMQTT() {
-            const client = mqtt.connect('ws://test.mosquitto.org:8080');
+            const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt');
             const statusDiv = document.getElementById('status');
 
             client.on('connect', () => {

@@ -149,7 +149,7 @@
 
         /* --- MEDIA QUERIES PARA CELULAR --- */
         @media (max-width: 600px) {
-            .navbar a span { display: none; } /* Oculta texto en menú si es muy pequeño */
+            .navbar a span { display: none; } 
             .navbar a { margin: 0 10px; font-size: 1.2em; }
             h1 { font-size: 2.2em !important; }
             .section-title { font-size: 1.4em; }
@@ -282,25 +282,48 @@
 
         function initCharts() {
             Chart.register(ChartDataLabels);
+            
             const commonOptions = {
-                responsive: true, maintainAspectRatio: false,
-                plugins: { legend: { display: false }, datalabels: { color: '#fff', align: 'top', font: { weight: 'bold' }, display: (ctx) => ctx.dataIndex === ctx.dataset.data.length - 1 }},
+                responsive: true, 
+                maintainAspectRatio: false,
+                plugins: { 
+                    legend: { display: false }, 
+                    datalabels: { 
+                        color: '#fff', 
+                        align: 'top', 
+                        font: { weight: 'bold' }, 
+                        display: (ctx) => ctx.dataIndex === ctx.dataset.data.length - 1 
+                    }
+                },
                 scales: { 
-                    y: { grid: { color: '#2a2a2a' }, ticks: { color: '#888' }, beginAtZero: true },
                     x: { ticks: { display: false }, grid: { display: false }}
                 }
             };
 
+            // Gráfica de Temperatura (Escala 0 a 110)
             tempChart = new Chart(document.getElementById('tempChart'), {
                 type: 'line',
                 data: { labels: [], datasets: [{ data: [], borderColor: '#ffae00', backgroundColor: 'rgba(255, 174, 0, 0.1)', fill: true, tension: 0.4 }] },
-                options: commonOptions
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        ...commonOptions.scales,
+                        y: { min: 0, max: 110, grid: { color: '#2a2a2a' }, ticks: { color: '#888' } }
+                    }
+                }
             });
 
+            // Gráfica de Velocidad (Escala 0 a 3100)
             velChart = new Chart(document.getElementById('velChart'), {
                 type: 'line',
                 data: { labels: [], datasets: [{ data: [], borderColor: '#00ff00', backgroundColor: 'rgba(0, 255, 0, 0.1)', fill: true, tension: 0.4 }] },
-                options: commonOptions
+                options: {
+                    ...commonOptions,
+                    scales: {
+                        ...commonOptions.scales,
+                        y: { min: 0, max: 3100, grid: { color: '#2a2a2a' }, ticks: { color: '#888' } }
+                    }
+                }
             });
         }
 
